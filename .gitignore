@@ -13,6 +13,10 @@
 # testing
 /coverage
 
+#id_rsa
+/id_rsa
+/id_rsa.pub
+
 # next.js
 /.next/
 /out/

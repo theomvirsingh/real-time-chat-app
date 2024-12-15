@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AuthForm from "./components/AuthForm/AuthForm";
 
 export default function Home() {
   return (
@@ -27,7 +28,7 @@ export default function Home() {
               priority
             />
 
-            <div className="mt-4 flex justify-center space-x-4">
+            {/* <div className="mt-4 flex justify-center space-x-4">
               <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
                 <span className="absolute inset-0 overflow-hidden rounded-full">
                   <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
@@ -77,8 +78,12 @@ export default function Home() {
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-orange-400 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
               </button>
-            </div>
+            </div> */}
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-400">
+              Sign in to your account
+            </h2>
           </div>
+          <AuthForm />
         </div>
       </div>
     </>
