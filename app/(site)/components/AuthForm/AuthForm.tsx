@@ -2,17 +2,27 @@
 import axios from "axios";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/Input/input";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import AuthSocialButton from "./AuthSocialButton";
 import toast from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Variant = "LOGIN" | "SIGNUP";
 
 const AuthForm = () => {
+  const session =  useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if(session?.status === "authenticated"){
+      router.push("/user");
+    }
+  }, [session?.status])
 
   const toggleVariant = useCallback(() => {
     if (variant == "LOGIN") {
@@ -38,24 +48,49 @@ const AuthForm = () => {
     setIsLoading(true);
     if (variant === "LOGIN") {
       //LOGIN
+      signIn("credentials", { ...data, redirect: false })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Invalid credentials");
+          }
+          if (callback?.ok && !callback?.error) {
+            toast.success("Logged in successfully");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
     if (variant === "SIGNUP") {
-      axios.post("/api/signup", data)
-      .then((response) => {
-        toast.success("Account created successfully");
-        // signIn("credentials", data);
-      })
-      .catch((error) => {
-        toast.error(error.response.data || "Something went wrong");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      axios
+        .post("/api/signup", data)
+        .then((response) => {
+          toast.success("Account created successfully");
+          signIn("credentials", data); 
+        })
+        .catch((error) => {
+          toast.error(error.response.data || "Something went wrong");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
   const socialAuthAction = (action: string) => {
     setIsLoading(true);
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Something went wrong with your social login");
+        }
+        if (callback?.ok && !callback?.error) {
+          toast.success("Logged in successfully");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
