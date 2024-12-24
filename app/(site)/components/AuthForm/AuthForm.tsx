@@ -20,7 +20,7 @@ const AuthForm = () => {
 
   useEffect(() => {
     if(session?.status === "authenticated"){
-      router.push("/user");
+      router.push("/users");
     }
   }, [session?.status])
 
