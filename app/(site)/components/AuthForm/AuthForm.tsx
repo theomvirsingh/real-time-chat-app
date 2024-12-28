@@ -5,6 +5,7 @@ import Input from "@/app/components/Input/input";
 import React, { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import { BsGithub } from "react-icons/bs";
 import AuthSocialButton from "./AuthSocialButton";
 import toast from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
@@ -94,8 +95,8 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white opacity-80 px-4 py-8 shadow sm:rounded-lg sm:px-10">
+    <div className={`sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0 ${variant === "SIGNUP" ? "mt-4" : "mt-8"}`}>
+      <div className="bg-white opacity-80 px-4 py-8 shadow rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "SIGNUP" && (
             <Input
@@ -144,6 +145,10 @@ const AuthForm = () => {
               icon={FcGoogle}
               onClick={() => socialAuthAction("google")}
             />
+            <AuthSocialButton
+              icon={BsGithub}
+              onClick={() => socialAuthAction("github")}
+            />
           </div>
         </div>
       </div>
@@ -162,6 +167,7 @@ const AuthForm = () => {
       </div>
     </div>
   );
+  
 };
 
 export default AuthForm;
