@@ -20,8 +20,8 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  createdAt     DateTime? @default(now())
-  updatedt      DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   conversationIds String[]       @db.ObjectId
   conversations   Conversation[] @relation(fields: [conversationIds], references: [id])
@@ -63,7 +63,7 @@ model Conversation {
   messages   Message[]
 
   userIds String[] @db.ObjectId
-  user    User[]   @relation(fields: [userIds], references: [id])
+  users   User[]   @relation(fields: [userIds], references: [id])
 }
 
 model Message {
